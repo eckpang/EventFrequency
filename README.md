@@ -33,5 +33,66 @@ The solution presented here only uses a in-memory cache - this was done in the i
 - When updating the Event Frequency table, increment instead of setting the count so multiple machines can be load balanced to process the stream. 
 - The current solution is thread-safe, so it can potentially uses multiple threads to process multiple files at the same time.
 
+# Sample output
 
+Here is the output running the shortstream.json input file:
+[{
+  "accounts": [
+    "paying": [
+      "2016-04-05": {
+        "buy": 471,
+        "login": 10,
+        "redeem": 477,
+        "view": 499
+      },
+      "2016-04-06": {
+        "buy": 1868,
+        "redeem": 1832,
+        "view": 1737
+      }
+    ],
+    "trial": [
+      "2016-04-05": {
+        "buy": 216,
+        "login": 4,
+        "redeem": 204,
+        "view": 204
+      },
+      "2016-04-06": {
+        "buy": 748,
+        "redeem": 742,
+        "view": 731
+      }
+    ]
+  ],
+  "stream": "development",
+  "users": [
+    "admin": [
+      "2016-04-05": {
+        "buy": 55,
+        "login": 1,
+        "redeem": 48,
+        "view": 52
+      },
+      "2016-04-06": {
+        "buy": 188,
+        "redeem": 182,
+        "view": 159
+      }
+    ],
+    "user": [
+      "2016-04-05": {
+        "buy": 46,
+        "login": 1,
+        "redeem": 47,
+        "view": 45
+      },
+      "2016-04-06": {
+        "buy": 178,
+        "redeem": 175,
+        "view": 168
+      }
+    ]
+  ]
+}]
 
