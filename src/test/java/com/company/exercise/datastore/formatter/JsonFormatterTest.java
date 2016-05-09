@@ -26,28 +26,6 @@ public class JsonFormatterTest {
     inMemoryDataStore.storeMessage(TestMessageFactory.createAccount(2));
     inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithStream(1, "stream2"));
     inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithStream(2, "stream1"));
-    inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithUser(
-        1,
-        "userId2",
-        "userName2",
-        "userRole2"));
-    inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithUser(
-        2,
-        "userId1",
-        "userName1",
-        "userRole1"));
-    inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithAccount(
-        1,
-        "accountId2",
-        "accountName2",
-        "accountStatus2",
-        "accountPlan2"));
-    inMemoryDataStore.storeMessage(TestMessageFactory.createAccountWithAccount(
-        2,
-        "accountId1",
-        "accountName1",
-        "accountStatus1",
-        "accountPlan1"));
   }
 
   /***
@@ -99,11 +77,11 @@ public class JsonFormatterTest {
                     TestMessageFactory.getEvent(1),
                     1L)
                 .setUserFrequency(
-                  TestMessageFactory.getStream(2),
-                  TestMessageFactory.getUserId(2),
-                  TestMessageFactory.getDate(2),
-                  TestMessageFactory.getEvent(2),
-                  1L),
+                    TestMessageFactory.getStream(2),
+                    TestMessageFactory.getUserId(2),
+                    TestMessageFactory.getDate(2),
+                    TestMessageFactory.getEvent(2),
+                    1L),
             "[{\n" +
                 "  \"accounts\": [\n" +
                 "    \"accountStatus1\": [\n" +

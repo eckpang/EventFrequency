@@ -169,33 +169,6 @@ public class TestMessageFactory {
         getAccountPlan(index));
   }
 
-  /***
-   * Create an account message. All the fields are set to a
-   * base value with the index appended at the end, except for the user fields which are
-   * specified directly
-   *
-   * @param index Index based on which to set the fields
-   * @param userId The user id
-   * @param userName The user name
-   * @param userRole The user role
-   * @return The account message object
-   */
-  public static AccountMessage createAccountWithUser(
-      Integer index,
-      String userId,
-      String userName,
-      String userRole) {
-    return new AccountMessage(
-        getTimestamp(index),
-        getStream(index),
-        userId,
-        userName,
-        userRole,
-        getAccountId(index),
-        getAccountName(index),
-        getAccountStatus(index),
-        getAccountPlan(index));
-  }
 
   /***
    * Create an account message. All the fields are set to a
