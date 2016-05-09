@@ -28,6 +28,7 @@ This solution uses an in-memory data store to count event frequency. Here is a t
 - Unit testing is included. All tests use DataProvider. All data provider tuples specify the inputs to the test and the expected values in a consistent manner to make the unit tests more readable and maintainable.
 - The design is meant to be extensible. New message types, data stores, input source, display format, etc can be added without requiring core changes to the design.
 - The current solution is thread-safe, so it can potentially use multiple threads to do processing at the same time.
+- Bonus point #3 of checking a user cannot belong to multiple accounts is included.
 
 # Potential Enhancements
 
