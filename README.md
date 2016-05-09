@@ -2,9 +2,12 @@
 
 # Build and Run Instruction
 
-- git checkout git@github.com:eckpang/eventfrequency.git
-- mvn package
-- java -jar target/event-processing-bundle.jar short_stream.json
+```
+git init
+git checkout git@github.com:eckpang/eventfrequency.git
+mvn package
+java -jar target/event-processing-bundle.jar short_stream.json
+```
 
 # Code Overview
 
