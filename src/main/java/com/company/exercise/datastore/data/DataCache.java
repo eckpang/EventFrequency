@@ -2,6 +2,7 @@ package com.company.exercise.datastore.data;
 
 import com.company.exercise.message.AccountMessage;
 import com.company.exercise.message.EventMessage;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.Date;
 import java.util.Map;
@@ -17,11 +18,13 @@ public class DataCache {
 
   private final Map<AccountKey, Account> accounts;
   private final Map<UserKey, User> users;
+  private final Map<UserKey, AccountKey> userAccounts;
   private final EventFrequency eventFrequency;
 
   public DataCache() {
     accounts = new ConcurrentHashMap<>();
     users = new ConcurrentHashMap<>();
+    userAccounts = new ConcurrentHashMap<>();
     eventFrequency = new EventFrequency();
   }
 
@@ -31,6 +34,10 @@ public class DataCache {
 
   public Map<UserKey, User> getUsers() {
     return users;
+  }
+
+  public Map<UserKey, AccountKey> getUserAccounts() {
+    return userAccounts;
   }
 
   public EventFrequency getEventFrequency() {
@@ -43,10 +50,25 @@ public class DataCache {
    * @param message An account message
    */
   public void storeAccountMessage(AccountMessage message) {
+    AccountKey accountKey = new AccountKey(message.getStream(), message.getAccountId());
+    UserKey userKey = new UserKey(message.getStream(), message.getUserId());
+
+    AccountKey accountKeyForUser = userAccounts.get(userKey);
+    if (accountKeyForUser != null) {
+      if (!accountKeyForUser.equals(accountKey)) {
+        throw new IllegalStateException(String.format(
+            "Invalid input file - the same user cannot belong to multiple accounts. Stream %s, " +
+                "User %s, Account1 %s, Account2 %s",
+            userKey.getStream(),
+            userKey.getUserId(),
+            accountKeyForUser.getAccountId(),
+            accountKey.getAccountId()));
+      }
+    }
+    userAccounts.computeIfAbsent(userKey, k -> accountKey);
+
     accounts.put(
-        new AccountKey(
-            message.getStream(),
-            message.getAccountId()),
+        accountKey,
         new Account(
             message.getStream(),
             message.getAccountId(),
@@ -55,9 +77,7 @@ public class DataCache {
             message.getAccountPlan()));
 
     users.put(
-        new UserKey(
-            message.getStream(),
-            message.getUserId()),
+        userKey,
         new User(
             message.getStream(),
             message.getUserId(),

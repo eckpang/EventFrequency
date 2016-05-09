@@ -205,4 +205,59 @@ public class InMemoryDataStoreTest {
     }
     Assert.assertEquals(inMemoryDataStore.getEventFrequency(), eventFrequency);
   }
+
+  @DataProvider(name = "sameUserInMultipleAccountTestDataProvider")
+  public Object[][] sameUserInMultipleAccountTestDataProvider() {
+    return new Object[][] {
+        new Object[] {
+            // One user belong to two seperate accounts in the same stream. An exception
+            // should be thorwn
+            ImmutableList.of(
+                TestMessageFactory.createAccount(1),
+                TestMessageFactory.createAccountWithAccount(
+                    1,
+                    TestMessageFactory.getAccountId(2),
+                    TestMessageFactory.getAccountName(2),
+                    TestMessageFactory.getAccountPlan(2),
+                    TestMessageFactory.getAccountStatus(2)
+                    )),
+            true
+        },
+        new Object[] {
+            // One user belong to the same account ID, but in different stream. This is valid and
+            // no exceptions should be thrown
+            ImmutableList.of(
+                TestMessageFactory.createAccount(1),
+                TestMessageFactory.createAccountWithStream(
+                    1,
+                    "stream2"
+                )),
+            false
+        },
+        new Object[] {
+            // The same user is set to the same account twice. This is not an error and no
+            // exceptions should be thrown
+            ImmutableList.of(
+                TestMessageFactory.createAccount(1),
+                TestMessageFactory.createAccount(1)),
+            false
+        }
+    };
+  }
+
+  @Test(dataProvider = "sameUserInMultipleAccountTestDataProvider")
+  public void sameUserInMultipleAccountTest(
+      List<Message> messages,
+      boolean exceptionExpected) {
+    boolean exception = false;
+    try {
+      for (Message message : messages) {
+        inMemoryDataStore.storeMessage(message);
+      }
+    } catch (IllegalStateException ex) {
+      exception = true;
+    }
+    Assert.assertEquals(exception, exceptionExpected);
+  }
+
 }
