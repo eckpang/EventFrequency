@@ -2,7 +2,6 @@ package com.company.exercise.datastore.data;
 
 import com.company.exercise.message.AccountMessage;
 import com.company.exercise.message.EventMessage;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.Date;
 import java.util.Map;
